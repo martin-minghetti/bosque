@@ -38,3 +38,6 @@ Tracking honesto del tiempo wall-clock para narrativa marketing del kit.
 | 2026-05-06T16:30:00Z | Repo público: https://github.com/martin-minghetti/bosque |
 | 2026-05-06T16:34:00Z | **Live en producción** — https://bosque-three.vercel.app — primer deploy Vercel desde main. ~30 min wall-clock activo desde T-0. |
 | 2026-05-06T16:45:00Z | **v0.2 deployed** — catálogo /tienda + 12 product pages SSG + carrito server-side + checkout dinámico shipping + simulated payment + admin con stats. Faltan: provisionar Neon, env vars, email, tests. ~41 min wall-clock activo. |
+| 2026-05-06T16:48:00Z | Neon Postgres provisionado vía `vercel integration add neon` (resource `neon-coquelicot-nest`). DATABASE_URL auto-conectado al proyecto. Migrations applied vía `tsx scripts/migrate.ts`. |
+| 2026-05-06T16:49:00Z | SESSION_SECRET (256 bits) + ADMIN_TOKEN (128 bits) + PAYMENT_MODE=simulated + NEXT_PUBLIC_APP_URL agregados a Vercel env. |
+| 2026-05-06T16:51:00Z | **v0.3 live end-to-end** — carrito DB funcional, /admin/login operativo, simulated checkout completo. ~47 min wall-clock activo. |
