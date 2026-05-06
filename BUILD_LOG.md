@@ -37,3 +37,4 @@ Tracking honesto del tiempo wall-clock para narrativa marketing del kit.
 | 2026-05-06T16:25:00Z | Homepage v0.1: hero full-bleed cocoa + featured product alternating L/R + marquee categorías + footer multi-col. Build clean. |
 | 2026-05-06T16:30:00Z | Repo público: https://github.com/martin-minghetti/bosque |
 | 2026-05-06T16:34:00Z | **Live en producción** — https://bosque-three.vercel.app — primer deploy Vercel desde main. ~30 min wall-clock activo desde T-0. |
+| 2026-05-06T16:45:00Z | **v0.2 deployed** — catálogo /tienda + 12 product pages SSG + carrito server-side + checkout dinámico shipping + simulated payment + admin con stats. Faltan: provisionar Neon, env vars, email, tests. ~41 min wall-clock activo. |
