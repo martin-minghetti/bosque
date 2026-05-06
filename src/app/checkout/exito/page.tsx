@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { eq } from "drizzle-orm";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -27,15 +28,15 @@ export default async function SuccessPage({ searchParams }: Props) {
   }
   const { orderId, token } = await searchParams;
 
-  // IDOR guard: solo el dueño con el token correcto puede ver la orden.
-  const isAuthorized = orderId && token && verifyOrderToken(orderId, token);
+  // IDOR guard: la URL pública tiene que llegar con orderId+token firmado.
+  if (!orderId || !token || !verifyOrderToken(orderId, token)) notFound();
 
-  const [order] = isAuthorized
-    ? await db.select().from(orders).where(eq(orders.id, orderId))
-    : [];
-  const items = isAuthorized && order
-    ? await db.select().from(orderItems).where(eq(orderItems.orderId, orderId))
-    : [];
+  const [order] = await db.select().from(orders).where(eq(orders.id, orderId));
+  if (!order) notFound();
+  const items = await db
+    .select()
+    .from(orderItems)
+    .where(eq(orderItems.orderId, orderId));
 
   return (
     <>
@@ -44,24 +45,18 @@ export default async function SuccessPage({ searchParams }: Props) {
         <div className="mx-auto max-w-3xl px-6 sm:px-10 py-24 sm:py-32 text-center">
           <p className="eyebrow text-background-cream/60">Compra confirmada</p>
           <h1 className="mt-4 text-6xl sm:text-8xl leading-[0.85]">Gracias.</h1>
-          {order ? (
-            <p className="mt-6 text-base sm:text-lg text-background-cream/80 max-w-md mx-auto">
-              Recibimos tu pago de{" "}
-              <span className="font-mono">{formatArs(Number(order.totalArs))}</span>.
-              Te enviamos un mail a {order.customerEmail} con el detalle. Despachamos
-              en 24-48h con{" "}
-              {
-                CARRIER_LABEL[
-                  order.shippingCarrier as keyof typeof CARRIER_LABEL
-                ]
-              }
-              .
-            </p>
-          ) : (
-            <p className="mt-6 text-base text-background-cream/70">
-              Tu compra fue confirmada. Revisá tu mail para el detalle.
-            </p>
-          )}
+          <p className="mt-6 text-base sm:text-lg text-background-cream/80 max-w-md mx-auto">
+            Recibimos tu pago de{" "}
+            <span className="font-mono">{formatArs(Number(order.totalArs))}</span>.
+            Te enviamos un mail a {order.customerEmail} con el detalle. Despachamos
+            en 24-48h con{" "}
+            {
+              CARRIER_LABEL[
+                order.shippingCarrier as keyof typeof CARRIER_LABEL
+              ]
+            }
+            .
+          </p>
         </div>
       </section>
 
