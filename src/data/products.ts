@@ -33,6 +33,7 @@ export type Product = {
 export const PRODUCTS: Product[] = [
   {
     slug: "frutos-rojos-70",
+    imageUrl: "/products/frutos-rojos-70.jpg",
     name: "Frutos rojos · 70%",
     shortName: "Frutos rojos",
     category: "tabletas",
@@ -59,6 +60,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     slug: "cacao-puro-85",
+    imageUrl: "/products/cacao-puro-85.jpg",
     name: "Cacao puro · 85%",
     shortName: "Cacao 85%",
     category: "tabletas",
@@ -274,6 +276,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     slug: "tablon-degustacion-5x70",
+    imageUrl: "/products/tablon-degustacion-5x70.jpg",
     name: "Tablón degustación · 5×70g",
     shortName: "Degustación 5",
     category: "tablones",
@@ -300,6 +303,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     slug: "estuche-cordillera",
+    imageUrl: "/products/estuche-cordillera.jpg",
     name: "Estuche Cordillera · 3 tabletas",
     shortName: "Estuche Cordillera",
     category: "estuches",
