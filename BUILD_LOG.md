@@ -35,3 +35,5 @@ Tracking honesto del tiempo wall-clock para narrativa marketing del kit.
 | 2026-05-06T16:14:00Z | Tipografía: Anton (Google Fonts) como display por licencia libre — Bajern preview de Fontmirror solo trae 2 glyphs, descartado. |
 | 2026-05-06T16:18:00Z | Deps: drizzle-orm + drizzle-kit + @neondatabase/serverless + geist + resend + mercadopago + zod + vitest. |
 | 2026-05-06T16:25:00Z | Homepage v0.1: hero full-bleed cocoa + featured product alternating L/R + marquee categorías + footer multi-col. Build clean. |
+| 2026-05-06T16:30:00Z | Repo público: https://github.com/martin-minghetti/bosque |
+| 2026-05-06T16:34:00Z | **Live en producción** — https://bosque-three.vercel.app — primer deploy Vercel desde main. ~30 min wall-clock activo desde T-0. |

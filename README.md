@@ -1,5 +1,7 @@
 # Bosque
 
+Live: **https://bosque-three.vercel.app**
+
 Demo de tienda online para chocolatería patagónica. Tercera pieza del kit ecommerce AR (junto con [Norhaven Lodge](https://norhaven-lodge.vercel.app) — booking + MP Checkout Pro, y [Cohere](https://cohere-six.vercel.app) — membresías recurrentes con MP Subscriptions).
 
 Construido como showcase técnico y carta de venta para comercios de Bariloche que necesitan alternativa a Tiendanube: stack moderno, customizable real, costo ~$0/mes en free tiers vs ~$15-30k/mes plan básico.
