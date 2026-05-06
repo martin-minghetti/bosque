@@ -42,3 +42,6 @@ Tracking honesto del tiempo wall-clock para narrativa marketing del kit.
 | 2026-05-06T16:49:00Z | SESSION_SECRET (256 bits) + ADMIN_TOKEN (128 bits) + PAYMENT_MODE=simulated + NEXT_PUBLIC_APP_URL agregados a Vercel env. |
 | 2026-05-06T16:51:00Z | **v0.3 live end-to-end** — carrito DB funcional, /admin/login operativo, simulated checkout completo. ~47 min wall-clock activo. |
 | 2026-05-06T16:55:00Z | Tests: Vitest 30/30 passing (shipping, session HMAC, products, format). Playwright 3/3 passing contra live deploy. Screenshots portfolio capturados. ~51 min wall-clock activo. |
+| 2026-05-06T17:00:00Z | Páginas faltantes (404 fix): /origen, /mayorista, /contacto, /envios, /produccion, /cuenta, /legales con contenido real. 20 rutas activas. |
+| 2026-05-06T17:30:00Z | Imágenes Wikimedia Commons (12 fotos libres) — quedaron pobres para chocolatería premium (cupcakes/flores/polillas como falsos positivos). |
+| 2026-05-06T17:50:00Z | **v1.0 deployed** — 16 imágenes generadas con Replicate FLUX 1.1 Pro (~$0.64). Packshots editorial dark moody coherentes con identidad Onyx-style. Hero patagónico AI gen. ~106 min wall-clock activo. |
