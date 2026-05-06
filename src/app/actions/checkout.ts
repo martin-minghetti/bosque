@@ -1,6 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { headers } from "next/headers";
 import { z } from "zod";
 import { Preference } from "mercadopago";
 import { db, orders, orderItems, isDbConfigured } from "@/db";
@@ -11,6 +12,8 @@ import {
   getShippingRate,
   type ShippingCarrier,
 } from "@/lib/shipping";
+import { makeOrderToken } from "@/lib/order-token";
+import { rateLimit, maybeCleanup } from "@/lib/rate-limit";
 
 const checkoutSchema = z.object({
   customerName: z.string().min(2).max(120),
@@ -38,6 +41,15 @@ export async function createOrderAction(
 ): Promise<CheckoutResult> {
   if (!isDbConfigured) {
     return { ok: false, error: "DATABASE_URL no configurada" };
+  }
+
+  // Rate limit: 10 checkouts por IP cada 5 min
+  maybeCleanup();
+  const h = await headers();
+  const clientKey = h.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
+  const rl = rateLimit(`checkout:${clientKey}`, 10, 5 * 60 * 1000);
+  if (!rl.ok) {
+    return { ok: false, error: "Demasiados intentos. Esperá unos minutos." };
   }
 
   const parsed = checkoutSchema.safeParse({
@@ -111,9 +123,10 @@ export async function createOrderAction(
   );
 
   let initPoint: string;
+  const viewToken = makeOrderToken(order.id);
 
   if (paymentMode === "simulated" || !mpClient) {
-    initPoint = `/checkout/simulated?orderId=${order.id}`;
+    initPoint = `/checkout/simulated?orderId=${order.id}&token=${viewToken}`;
   } else {
     const preference = await new Preference(mpClient).create({
       body: {
@@ -134,9 +147,9 @@ export async function createOrderAction(
           email: data.customerEmail,
         },
         back_urls: {
-          success: `${process.env.NEXT_PUBLIC_APP_URL}/checkout/exito?orderId=${order.id}`,
-          pending: `${process.env.NEXT_PUBLIC_APP_URL}/checkout/pendiente?orderId=${order.id}`,
-          failure: `${process.env.NEXT_PUBLIC_APP_URL}/checkout/error?orderId=${order.id}`,
+          success: `${process.env.NEXT_PUBLIC_APP_URL}/checkout/exito?orderId=${order.id}&token=${viewToken}`,
+          pending: `${process.env.NEXT_PUBLIC_APP_URL}/checkout/pendiente?orderId=${order.id}&token=${viewToken}`,
+          failure: `${process.env.NEXT_PUBLIC_APP_URL}/checkout/error?orderId=${order.id}&token=${viewToken}`,
         },
         auto_return: "approved",
         notification_url: `${process.env.NEXT_PUBLIC_APP_URL}/api/mp/webhook`,

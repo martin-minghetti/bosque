@@ -15,6 +15,15 @@ const ARS = new Intl.NumberFormat("es-AR", {
 
 const resend = apiKey ? new Resend(apiKey) : null;
 
+function escapeHtml(input: string): string {
+  return input
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
 export async function sendOrderConfirmation(
   order: DBOrder,
   items: DBOrderItem[],
@@ -26,12 +35,19 @@ export async function sendOrderConfirmation(
   const itemsList = items
     .map(
       (it) =>
-        `<tr><td style="padding:8px 0">${it.productName} × ${it.quantity}</td><td style="padding:8px 0;text-align:right;font-family:ui-monospace,monospace">${ARS.format(Number(it.subtotalArs))}</td></tr>`,
+        `<tr><td style="padding:8px 0">${escapeHtml(it.productName)} × ${it.quantity}</td><td style="padding:8px 0;text-align:right;font-family:ui-monospace,monospace">${ARS.format(Number(it.subtotalArs))}</td></tr>`,
     )
     .join("");
 
-  const carrierLabel =
-    CARRIER_LABEL[order.shippingCarrier as keyof typeof CARRIER_LABEL] ?? order.shippingCarrier;
+  const carrierLabel = escapeHtml(
+    CARRIER_LABEL[order.shippingCarrier as keyof typeof CARRIER_LABEL] ?? order.shippingCarrier,
+  );
+  const safeName = escapeHtml(order.customerName);
+  const safeFirstName = escapeHtml(order.customerName.split(" ")[0]);
+  const safeAddress = escapeHtml(order.shippingAddress);
+  const safeCity = escapeHtml(order.shippingCity);
+  const safeProvince = escapeHtml(order.shippingProvince);
+  const safePostal = escapeHtml(order.shippingPostal);
 
   const html = `<!DOCTYPE html>
 <html>
@@ -43,7 +59,7 @@ export async function sendOrderConfirmation(
     <p style="color:#5A544A;text-transform:uppercase;letter-spacing:0.18em;font-size:11px;margin:24px 0 4px">
       Orden #${order.id.slice(0, 8)}
     </p>
-    <h2 style="font-size:24px;margin:8px 0 24px">Gracias, ${order.customerName.split(" ")[0]}.</h2>
+    <h2 style="font-size:24px;margin:8px 0 24px">Gracias, ${safeFirstName}.</h2>
     <p style="color:#0A0A0A;line-height:1.6">
       Recibimos tu compra. Te enviamos un mail con el seguimiento cuando despachemos
       el paquete con ${carrierLabel}.
@@ -58,8 +74,8 @@ export async function sendOrderConfirmation(
     </table>
     <p style="color:#5A544A;font-size:13px;line-height:1.6;margin-top:32px">
       Envío a:<br/>
-      ${order.shippingAddress}<br/>
-      ${order.shippingCity}, ${order.shippingProvince} (${order.shippingPostal})
+      ${safeAddress}<br/>
+      ${safeCity}, ${safeProvince} (${safePostal})
     </p>
     <p style="color:#5A544A;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;margin-top:48px">
       Bosque · Bariloche · Patagonia

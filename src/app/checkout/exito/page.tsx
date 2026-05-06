@@ -5,11 +5,12 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { db, orders, orderItems, isDbConfigured } from "@/db";
 import { formatArs } from "@/lib/format";
 import { CARRIER_LABEL } from "@/lib/shipping";
+import { verifyOrderToken } from "@/lib/order-token";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Compra confirmada · Bosque" };
 
-type Props = { searchParams: Promise<{ orderId?: string }> };
+type Props = { searchParams: Promise<{ orderId?: string; token?: string }> };
 
 export default async function SuccessPage({ searchParams }: Props) {
   if (!isDbConfigured) {
@@ -24,11 +25,15 @@ export default async function SuccessPage({ searchParams }: Props) {
       </>
     );
   }
-  const { orderId } = await searchParams;
-  const [order] = orderId
+  const { orderId, token } = await searchParams;
+
+  // IDOR guard: solo el dueño con el token correcto puede ver la orden.
+  const isAuthorized = orderId && token && verifyOrderToken(orderId, token);
+
+  const [order] = isAuthorized
     ? await db.select().from(orders).where(eq(orders.id, orderId))
     : [];
-  const items = orderId
+  const items = isAuthorized && order
     ? await db.select().from(orderItems).where(eq(orderItems.orderId, orderId))
     : [];
 
@@ -39,7 +44,7 @@ export default async function SuccessPage({ searchParams }: Props) {
         <div className="mx-auto max-w-3xl px-6 sm:px-10 py-24 sm:py-32 text-center">
           <p className="eyebrow text-background-cream/60">Compra confirmada</p>
           <h1 className="mt-4 text-6xl sm:text-8xl leading-[0.85]">Gracias.</h1>
-          {order && (
+          {order ? (
             <p className="mt-6 text-base sm:text-lg text-background-cream/80 max-w-md mx-auto">
               Recibimos tu pago de{" "}
               <span className="font-mono">{formatArs(Number(order.totalArs))}</span>.
@@ -51,6 +56,10 @@ export default async function SuccessPage({ searchParams }: Props) {
                 ]
               }
               .
+            </p>
+          ) : (
+            <p className="mt-6 text-base text-background-cream/70">
+              Tu compra fue confirmada. Revisá tu mail para el detalle.
             </p>
           )}
         </div>
@@ -95,7 +104,7 @@ export default async function SuccessPage({ searchParams }: Props) {
             </div>
             <Link
               href="/tienda"
-              className="text-center bg-foreground text-background-cream px-8 py-4 text-[0.78rem] uppercase kerning-expanded hover:bg-cacao transition-colors"
+              className="text-center bg-foreground text-background-cream px-8 py-4 text-[0.78rem] uppercase kerning-expanded transition-all duration-500 ease-out hover:bg-cacao"
             >
               Volver a la tienda
             </Link>

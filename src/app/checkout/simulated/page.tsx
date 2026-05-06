@@ -7,16 +7,18 @@ import { db, orders, orderItems, isDbConfigured } from "@/db";
 import { formatArs } from "@/lib/format";
 import { CARRIER_LABEL } from "@/lib/shipping";
 import { simulatePayAction } from "@/app/actions/checkout-sim";
+import { verifyOrderToken } from "@/lib/order-token";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Pago simulado · Bosque" };
 
-type Props = { searchParams: Promise<{ orderId?: string }> };
+type Props = { searchParams: Promise<{ orderId?: string; token?: string }> };
 
 export default async function SimulatedPaymentPage({ searchParams }: Props) {
   if (!isDbConfigured) redirect("/");
-  const { orderId } = await searchParams;
-  if (!orderId) notFound();
+  const { orderId, token } = await searchParams;
+  if (!orderId || !token) notFound();
+  if (!verifyOrderToken(orderId, token)) notFound();
 
   const [order] = await db.select().from(orders).where(eq(orders.id, orderId));
   if (!order) notFound();
@@ -106,6 +108,7 @@ export default async function SimulatedPaymentPage({ searchParams }: Props) {
 
               <form action={simulatePayAction} className="pt-4 border-t border-border space-y-3">
                 <input type="hidden" name="orderId" value={order.id} />
+                <input type="hidden" name="token" value={token} />
                 <button
                   type="submit"
                   name="result"

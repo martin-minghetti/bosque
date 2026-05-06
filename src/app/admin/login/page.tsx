@@ -1,10 +1,22 @@
 import { redirect } from "next/navigation";
+import { headers } from "next/headers";
 import { loginAdmin, isAdmin } from "@/lib/admin";
+import { rateLimit, maybeCleanup } from "@/lib/rate-limit";
 
 export const metadata = { title: "Admin · Login · Bosque" };
 
 async function loginAction(formData: FormData) {
   "use server";
+
+  // Rate limit fuerte: 5 intentos cada 15 min por IP. Bloquea brute force.
+  maybeCleanup();
+  const h = await headers();
+  const clientKey = h.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
+  const rl = rateLimit(`admin-login:${clientKey}`, 5, 15 * 60 * 1000);
+  if (!rl.ok) {
+    redirect("/admin/login?error=ratelimit");
+  }
+
   const token = String(formData.get("token") ?? "");
   const ok = await loginAdmin(token);
   if (ok) redirect("/admin");
@@ -19,6 +31,7 @@ export default async function AdminLoginPage({
   if (await isAdmin()) redirect("/admin");
   const params = await searchParams;
   const hasError = params.error === "1";
+  const isRateLimited = params.error === "ratelimit";
 
   return (
     <main className="min-h-screen bg-background-warm flex items-center justify-center p-6">
@@ -48,6 +61,11 @@ export default async function AdminLoginPage({
           </button>
           {hasError && (
             <p className="text-sm text-frutos-rojos">Token inválido.</p>
+          )}
+          {isRateLimited && (
+            <p className="text-sm text-frutos-rojos">
+              Demasiados intentos. Esperá 15 minutos.
+            </p>
           )}
         </form>
       </div>

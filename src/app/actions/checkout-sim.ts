@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { eq } from "drizzle-orm";
 import { db, orders, orderItems, isDbConfigured } from "@/db";
 import { sendOrderConfirmation } from "@/lib/email";
+import { makeOrderToken } from "@/lib/order-token";
 
 export async function simulatePayAction(formData: FormData): Promise<void> {
   if (!isDbConfigured) redirect("/");
@@ -11,6 +12,12 @@ export async function simulatePayAction(formData: FormData): Promise<void> {
   const result = String(formData.get("result") ?? "rejected");
 
   if (!orderId) redirect("/");
+
+  // Re-verificar token entrante para evitar que se invoque la action a mano.
+  const incomingToken = String(formData.get("token") ?? "");
+  const expected = makeOrderToken(orderId);
+  if (incomingToken !== expected) redirect("/");
+  const token = expected;
 
   if (result === "approved") {
     const fakePaymentId = `SIM-${Date.now().toString(36).toUpperCase()}`;
@@ -38,12 +45,12 @@ export async function simulatePayAction(formData: FormData): Promise<void> {
       // swallow
     }
 
-    redirect(`/checkout/exito?orderId=${orderId}`);
+    redirect(`/checkout/exito?orderId=${orderId}&token=${token}`);
   } else {
     await db
       .update(orders)
       .set({ status: "failed", updatedAt: new Date() })
       .where(eq(orders.id, orderId));
-    redirect(`/checkout/error?orderId=${orderId}`);
+    redirect(`/checkout/error?orderId=${orderId}&token=${token}`);
   }
 }
