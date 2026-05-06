@@ -1,5 +1,7 @@
+import Image from "next/image";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
+import { Reveal, HeroFade, HeroImageFade } from "@/components/Reveal";
 
 export const metadata = { title: "Contacto · Bosque" };
 
@@ -7,18 +9,31 @@ export default function ContactoPage() {
   return (
     <>
       <SiteHeader />
-      <section className="bg-background-warm">
-        <div className="mx-auto max-w-[1600px] px-6 sm:px-10 py-20 sm:py-32">
-          <p className="eyebrow">Contacto</p>
-          <h1 className="mt-4 text-7xl sm:text-9xl leading-[0.85]">
-            Escribinos.
-          </h1>
+      <section className="relative bg-cacao text-background-cream overflow-hidden">
+        <HeroImageFade className="absolute inset-0">
+          <Image
+            src="/hero/contacto.jpg"
+            alt="Escritorio con cuaderno de cuero y café"
+            fill
+            sizes="100vw"
+            priority
+            className="object-cover opacity-50"
+          />
+        </HeroImageFade>
+        <div className="absolute inset-0 bg-gradient-to-t from-cacao via-cacao/70 to-cacao/30" aria-hidden />
+        <div className="relative mx-auto max-w-[1600px] px-6 sm:px-10 py-20 sm:py-32">
+          <HeroFade>
+            <p className="eyebrow text-background-cream/70">Contacto</p>
+            <h1 className="mt-4 text-7xl sm:text-9xl leading-[0.85]">
+              Escribinos.
+            </h1>
+          </HeroFade>
         </div>
       </section>
 
       <section className="bg-background-cream">
         <div className="mx-auto max-w-[1600px] px-6 sm:px-10 py-16 grid grid-cols-1 lg:grid-cols-12 gap-10">
-          <div className="lg:col-span-5 space-y-8">
+          <Reveal className="lg:col-span-5 space-y-8">
             <div>
               <p className="eyebrow">Atención al cliente</p>
               <p className="mt-3 text-2xl">hola@bosque.example</p>
@@ -49,8 +64,8 @@ export default function ContactoPage() {
                 <li>WhatsApp · +54 9 294 4 12-3456</li>
               </ul>
             </div>
-          </div>
-          <div className="lg:col-span-7">
+          </Reveal>
+          <Reveal className="lg:col-span-7" delay={0.15}>
             <form className="bg-background border border-border p-8 space-y-4">
               <Input name="nombre" label="Tu nombre" required />
               <Input name="email" type="email" label="Email" required />
@@ -62,13 +77,13 @@ export default function ContactoPage() {
                 <textarea
                   name="mensaje"
                   rows={6}
-                  className="w-full border border-border bg-background-cream px-4 py-3 text-base focus:outline-none focus:border-foreground"
+                  className="w-full border border-border bg-background-cream px-4 py-3 text-base focus:outline-none focus:border-foreground transition-colors duration-300"
                 />
               </label>
               <button
                 type="submit"
                 disabled
-                className="w-full bg-foreground text-background-cream px-8 py-4 text-[0.78rem] uppercase kerning-expanded disabled:opacity-60"
+                className="w-full bg-foreground text-background-cream px-8 py-4 text-[0.78rem] uppercase kerning-expanded disabled:opacity-60 transition-all duration-300 hover:bg-cacao"
               >
                 Enviar (demo)
               </button>
@@ -77,7 +92,7 @@ export default function ContactoPage() {
                 via Resend y notifica a slack interno.
               </p>
             </form>
-          </div>
+          </Reveal>
         </div>
       </section>
       <SiteFooter />
@@ -106,7 +121,7 @@ function Input({
         name={name}
         type={type}
         required={required}
-        className="w-full border border-border bg-background-cream px-4 py-3 text-base focus:outline-none focus:border-foreground"
+        className="w-full border border-border bg-background-cream px-4 py-3 text-base focus:outline-none focus:border-foreground transition-colors duration-300"
       />
     </label>
   );

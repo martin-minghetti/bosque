@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
+import { Reveal, RevealStagger, RevealItem, HeroFade, HeroImageFade } from "@/components/Reveal";
 
 export const metadata = { title: "Origen del cacao · Bosque" };
 
@@ -41,34 +42,39 @@ export default function OrigenPage() {
     <>
       <SiteHeader />
       <section className="relative bg-cacao text-background-cream overflow-hidden">
-        <Image
-          src="/hero/origen.jpg"
-          alt="Flor del árbol de cacao"
-          fill
-          sizes="100vw"
-          priority
-          className="object-cover opacity-40"
-        />
+        <HeroImageFade className="absolute inset-0">
+          <Image
+            src="/hero/origen.jpg"
+            alt="Flor del árbol de cacao"
+            fill
+            sizes="100vw"
+            priority
+            className="object-cover opacity-40"
+          />
+        </HeroImageFade>
         <div className="absolute inset-0 bg-gradient-to-r from-cacao via-cacao/80 to-cacao/40" aria-hidden />
         <div className="relative mx-auto max-w-[1600px] px-6 sm:px-10 py-20 sm:py-32">
-          <p className="eyebrow text-background-cream/70">Origen</p>
-          <h1 className="mt-4 text-7xl sm:text-9xl leading-[0.85]">
-            De dónde
-            <br />
-            viene el cacao.
-          </h1>
-          <p className="mt-8 max-w-2xl text-base sm:text-lg text-background-cream/80">
-            Trabajamos con cuatro orígenes fijos. Compramos directo a cooperativas
-            con relación directa, pagamos sobre precio internacional, y usamos
-            siempre lotes de fermentación trazable. No hay blends genéricos.
-          </p>
+          <HeroFade>
+            <p className="eyebrow text-background-cream/70">Origen</p>
+            <h1 className="mt-4 text-7xl sm:text-9xl leading-[0.85]">
+              De dónde
+              <br />
+              viene el cacao.
+            </h1>
+            <p className="mt-8 max-w-2xl text-base sm:text-lg text-background-cream/80">
+              Trabajamos con cuatro orígenes fijos. Compramos directo a cooperativas
+              con relación directa, pagamos sobre precio internacional, y usamos
+              siempre lotes de fermentación trazable. No hay blends genéricos.
+            </p>
+          </HeroFade>
         </div>
       </section>
 
       <section className="bg-background-cream">
-        <div className="mx-auto max-w-[1600px] px-6 sm:px-10 py-16 sm:py-20 grid grid-cols-1 sm:grid-cols-2 gap-px bg-border">
+        <RevealStagger className="mx-auto max-w-[1600px] px-6 sm:px-10 py-16 sm:py-20 grid grid-cols-1 sm:grid-cols-2 gap-px bg-border">
           {ORIGINS.map((o) => (
-            <article key={o.region} className="bg-background p-8">
+            <RevealItem key={o.region}>
+            <article className="bg-background p-8 h-full">
               <h2 className="font-display text-3xl uppercase leading-none">
                 {o.region}
               </h2>
@@ -88,17 +94,18 @@ export default function OrigenPage() {
                 </div>
               </dl>
             </article>
+            </RevealItem>
           ))}
-        </div>
+        </RevealStagger>
       </section>
 
       <section className="bg-background border-t border-border">
         <div className="mx-auto max-w-[1600px] px-6 sm:px-10 py-16 sm:py-20 grid grid-cols-1 lg:grid-cols-12 gap-10">
-          <div className="lg:col-span-5">
+          <Reveal className="lg:col-span-5">
             <p className="eyebrow">Cómo lo hacemos</p>
             <h2 className="mt-3 text-5xl sm:text-6xl">Bean to bar.</h2>
-          </div>
-          <div className="lg:col-span-7 space-y-6 text-base leading-relaxed text-muted">
+          </Reveal>
+          <Reveal className="lg:col-span-7 space-y-6 text-base leading-relaxed text-muted" delay={0.15}>
             <p>
               Compramos cacao en grano fermentado y seco. Lo recibimos en
               Bariloche, lo limpiamos, lo tostamos en lotes chicos según el
@@ -117,21 +124,21 @@ export default function OrigenPage() {
               estacionalidad. Cuando un batch se agota, esperamos al siguiente,
               no improvisamos.
             </p>
-          </div>
+          </Reveal>
         </div>
       </section>
 
       <section className="bg-background-warm border-t border-border">
-        <div className="mx-auto max-w-[1600px] px-6 sm:px-10 py-16 text-center">
+        <Reveal className="mx-auto max-w-[1600px] px-6 sm:px-10 py-16 text-center">
           <p className="eyebrow">Probalo</p>
           <h2 className="mt-3 text-4xl sm:text-5xl">12 referencias en stock.</h2>
           <Link
             href="/tienda"
-            className="inline-flex mt-8 items-center gap-3 bg-foreground text-background-cream px-8 py-4 text-[0.78rem] uppercase kerning-expanded hover:bg-cacao transition-colors"
+            className="inline-flex mt-8 items-center gap-3 bg-foreground text-background-cream px-8 py-4 text-[0.78rem] uppercase kerning-expanded transition-all duration-500 ease-out hover:bg-cacao hover:gap-5"
           >
             Ver tienda
           </Link>
-        </div>
+        </Reveal>
       </section>
       <SiteFooter />
     </>

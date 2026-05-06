@@ -6,6 +6,7 @@ import { findProduct, PRODUCTS, activeProducts } from "@/data/products";
 import { formatArs, formatBatch } from "@/lib/format";
 import { addToCartAndRedirect } from "@/app/actions/cart";
 import { ProductImage } from "@/components/ProductImage";
+import { Reveal, RevealStagger, RevealItem } from "@/components/Reveal";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -56,17 +57,19 @@ export default async function ProductPage({ params }: Props) {
       <section className="bg-background">
         <div className="mx-auto max-w-[1600px] px-6 sm:px-10 py-12 sm:py-16 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
           {/* packshot */}
-          <div className="lg:col-span-7">
-            <ProductImage
-              product={product}
-              className="aspect-square w-full"
-              sizes="(max-width: 1024px) 100vw, 60vw"
-              priority
-            />
-          </div>
+          <Reveal className="lg:col-span-7">
+            <div className="overflow-hidden">
+              <ProductImage
+                product={product}
+                className="aspect-square w-full transition-transform duration-1000 ease-out hover:scale-105"
+                sizes="(max-width: 1024px) 100vw, 60vw"
+                priority
+              />
+            </div>
+          </Reveal>
 
           {/* ficha */}
-          <div className="lg:col-span-5">
+          <Reveal className="lg:col-span-5" delay={0.15}>
             <p className="eyebrow">
               {product.category} · Lote {String(product.batchNumber).padStart(3, "0")}
             </p>
@@ -131,14 +134,14 @@ export default async function ProductPage({ params }: Props) {
               <dt className="text-muted">Stock</dt>
               <dd>{product.stock} u.</dd>
             </dl>
-          </div>
+          </Reveal>
         </div>
       </section>
 
       {/* notas + maridaje */}
       <section className="bg-background-warm border-t border-border">
         <div className="mx-auto max-w-[1600px] px-6 sm:px-10 py-16 sm:py-20 grid grid-cols-1 lg:grid-cols-12 gap-10">
-          <div className="lg:col-span-6">
+          <Reveal className="lg:col-span-6">
             <p className="eyebrow">Notas de cata</p>
             <h2 className="mt-3 text-4xl sm:text-5xl">A qué sabe.</h2>
             <ul className="mt-6 space-y-2 text-base">
@@ -155,8 +158,8 @@ export default async function ProductPage({ params }: Props) {
                 </li>
               ))}
             </ul>
-          </div>
-          <div className="lg:col-span-6">
+          </Reveal>
+          <Reveal className="lg:col-span-6" delay={0.1}>
             <p className="eyebrow">Maridaje sugerido</p>
             <h2 className="mt-3 text-4xl sm:text-5xl">Con qué tomar.</h2>
             <ul className="mt-6 space-y-2 text-base">
@@ -173,28 +176,32 @@ export default async function ProductPage({ params }: Props) {
                 {product.contains.join(" · ")}
               </p>
             )}
-          </div>
+          </Reveal>
         </div>
       </section>
 
       {related.length > 0 && (
         <section className="bg-background">
           <div className="mx-auto max-w-[1600px] px-6 sm:px-10 py-16 sm:py-20">
-            <p className="eyebrow">Más en {product.category}</p>
-            <h2 className="mt-3 text-4xl sm:text-5xl">Te puede gustar.</h2>
-            <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <Reveal>
+              <p className="eyebrow">Más en {product.category}</p>
+              <h2 className="mt-3 text-4xl sm:text-5xl">Te puede gustar.</h2>
+            </Reveal>
+            <RevealStagger className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-6">
               {related.map((p) => (
-                <Link
-                  key={p.slug}
-                  href={`/tienda/${p.slug}`}
-                  className="group border border-border hover:border-foreground transition-colors"
-                >
-                  <ProductImage
-                    product={p}
-                    className="aspect-[4/5] w-full"
-                    sizes="(max-width: 640px) 100vw, 33vw"
-                  />
-                  <div className="p-5 flex items-start justify-between gap-3">
+                <RevealItem key={p.slug}>
+                  <Link
+                    href={`/tienda/${p.slug}`}
+                    className="group block border border-border hover:border-foreground transition-all duration-500 ease-out hover:-translate-y-1 hover:shadow-2xl"
+                  >
+                    <div className="overflow-hidden">
+                      <ProductImage
+                        product={p}
+                        className="aspect-[4/5] w-full transition-transform duration-700 ease-out group-hover:scale-105"
+                        sizes="(max-width: 640px) 100vw, 33vw"
+                      />
+                    </div>
+                    <div className="p-5 flex items-start justify-between gap-3">
                     <div>
                       <p className="eyebrow">{p.category}</p>
                       <p className="mt-1 font-display text-xl uppercase leading-none">
@@ -206,8 +213,9 @@ export default async function ProductPage({ params }: Props) {
                     </span>
                   </div>
                 </Link>
+                </RevealItem>
               ))}
-            </div>
+            </RevealStagger>
           </div>
         </section>
       )}

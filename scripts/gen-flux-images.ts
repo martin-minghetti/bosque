@@ -98,6 +98,16 @@ const TARGETS: Target[] = [
     aspect: "3:2",
     prompt: `interior of premium specialty coffee shop or chocolate boutique, dark walnut wood counter, glass display with products, warm pendant lighting, minimal decor, no people, no text, no logos, editorial Patagonian craftsman aesthetic, ${STYLE_BASE}`,
   },
+  {
+    outFile: "hero/tienda.jpg",
+    aspect: "3:2",
+    prompt: `top-down flat lay of assorted artisan chocolate bars, dark chocolate truffles, raw cocoa beans, dried red berries, all arranged on weathered dark walnut wood surface, dramatic side lighting, editorial product photography, no text, no logos, hyperrealistic, ${STYLE_BASE}`,
+  },
+  {
+    outFile: "hero/contacto.jpg",
+    aspect: "3:2",
+    prompt: `dark moody desk scene with leather notebook, vintage fountain pen, ceramic coffee cup, cocoa beans scattered, warm pendant light overhead, dark walnut surface, hands resting nearby cropped out of frame, editorial atmosphere, ${STYLE_BASE}`,
+  },
 ];
 
 async function callReplicate(prompt: string, aspect: string): Promise<string> {
