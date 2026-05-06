@@ -86,12 +86,12 @@ export function ratesForZone(zone: ShippingZone): RateRow[] {
 }
 
 const POSTAL_PREFIX_TO_ZONE: { regex: RegExp; zone: ShippingZone }[] = [
-  // CABA + GBA: códigos 1xxx
-  { regex: /^1[0-9]{3}/, zone: "caba_gba" },
+  // CABA + GBA: códigos 1xxx (con prefix de provincia opcional, ej C1425ABC)
+  { regex: /^[A-Z]?1[0-9]{3}/, zone: "caba_gba" },
   // Interior chico: 2xxx (BA interior), 3xxx (Litoral), 5xxx (Cuyo medio + Cba)
-  { regex: /^[235][0-9]{3}/, zone: "interior_chico" },
+  { regex: /^[A-Z]?[235][0-9]{3}/, zone: "interior_chico" },
   // Interior grande: 4xxx (NOA), 6xxx-9xxx (Patagonia + NOA + Cuyo lejano)
-  { regex: /^[4-9][0-9]{3}/, zone: "interior_grande" },
+  { regex: /^[A-Z]?[4-9][0-9]{3}/, zone: "interior_grande" },
 ];
 
 export function postalCodeToZone(cp: string): ShippingZone | null {

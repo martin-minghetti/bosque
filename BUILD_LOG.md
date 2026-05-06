@@ -41,3 +41,4 @@ Tracking honesto del tiempo wall-clock para narrativa marketing del kit.
 | 2026-05-06T16:48:00Z | Neon Postgres provisionado vía `vercel integration add neon` (resource `neon-coquelicot-nest`). DATABASE_URL auto-conectado al proyecto. Migrations applied vía `tsx scripts/migrate.ts`. |
 | 2026-05-06T16:49:00Z | SESSION_SECRET (256 bits) + ADMIN_TOKEN (128 bits) + PAYMENT_MODE=simulated + NEXT_PUBLIC_APP_URL agregados a Vercel env. |
 | 2026-05-06T16:51:00Z | **v0.3 live end-to-end** — carrito DB funcional, /admin/login operativo, simulated checkout completo. ~47 min wall-clock activo. |
+| 2026-05-06T16:55:00Z | Tests: Vitest 30/30 passing (shipping, session HMAC, products, format). Playwright 3/3 passing contra live deploy. Screenshots portfolio capturados. ~51 min wall-clock activo. |
