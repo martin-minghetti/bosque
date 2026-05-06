@@ -5,6 +5,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { findProduct, PRODUCTS, activeProducts } from "@/data/products";
 import { formatArs, formatBatch } from "@/lib/format";
 import { addToCartAndRedirect } from "@/app/actions/cart";
+import { ProductImage } from "@/components/ProductImage";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -56,25 +57,12 @@ export default async function ProductPage({ params }: Props) {
         <div className="mx-auto max-w-[1600px] px-6 sm:px-10 py-12 sm:py-16 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
           {/* packshot */}
           <div className="lg:col-span-7">
-            <div
+            <ProductImage
+              product={product}
               className="aspect-square w-full"
-              style={{ background: product.heroGradient }}
-              aria-label={`Packshot ${product.name}`}
+              sizes="(max-width: 1024px) 100vw, 60vw"
+              priority
             />
-            <div className="mt-4 grid grid-cols-3 gap-3">
-              <div
-                className="aspect-square"
-                style={{ background: product.heroGradient, filter: "brightness(0.85)" }}
-              />
-              <div
-                className="aspect-square"
-                style={{ background: product.heroGradient, filter: "brightness(1.1) saturate(0.9)" }}
-              />
-              <div
-                className="aspect-square"
-                style={{ background: product.heroGradient, filter: "brightness(0.7) saturate(1.2)" }}
-              />
-            </div>
           </div>
 
           {/* ficha */}
@@ -201,9 +189,10 @@ export default async function ProductPage({ params }: Props) {
                   href={`/tienda/${p.slug}`}
                   className="group border border-border hover:border-foreground transition-colors"
                 >
-                  <div
+                  <ProductImage
+                    product={p}
                     className="aspect-[4/5] w-full"
-                    style={{ background: p.heroGradient }}
+                    sizes="(max-width: 640px) 100vw, 33vw"
                   />
                   <div className="p-5 flex items-start justify-between gap-3">
                     <div>

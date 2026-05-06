@@ -5,6 +5,7 @@ import { readCart } from "@/lib/cart";
 import { isDbConfigured } from "@/db";
 import { formatArs } from "@/lib/format";
 import { setCartLineAction, clearCartAction } from "@/app/actions/cart";
+import { ProductImage } from "@/components/ProductImage";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Carrito · Bosque" };
@@ -76,9 +77,14 @@ export default async function CarritoPage() {
                     <Link
                       href={`/tienda/${line.productSlug}`}
                       className="block w-full sm:w-32 aspect-square shrink-0"
-                      style={{ background: line.product.heroGradient }}
                       aria-label={line.product.name}
-                    />
+                    >
+                      <ProductImage
+                        product={line.product}
+                        className="w-full h-full"
+                        sizes="128px"
+                      />
+                    </Link>
                     <div className="flex flex-col flex-1 gap-3">
                       <div className="flex items-start justify-between gap-4">
                         <div>

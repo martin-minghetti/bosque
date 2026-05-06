@@ -1,12 +1,13 @@
 import Link from "next/link";
+import Image from "next/image";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
+import { ProductImage } from "@/components/ProductImage";
 import { findProduct, PRODUCTS } from "@/data/products";
 import { formatArs, formatBatch } from "@/lib/format";
 
 export default function Home() {
-  const featured =
-    findProduct("frutos-rojos-70") ?? PRODUCTS[0];
+  const featured = findProduct("frutos-rojos-70") ?? PRODUCTS[0];
 
   const categoryHighlights = [
     { slug: "tabletas", label: "Tabletas single-origin", count: PRODUCTS.filter((p) => p.category === "tabletas").length },
@@ -20,20 +21,26 @@ export default function Home() {
     <>
       <SiteHeader />
 
-      <section
-        className="relative min-h-[88vh] flex items-end overflow-hidden text-background-cream"
-        style={{ background: featured.heroGradient }}
-      >
+      <section className="relative min-h-[88vh] flex items-end overflow-hidden text-background-cream">
+        <Image
+          src="/hero/main.jpg"
+          alt="Lago Nahuel Huapi, Bariloche"
+          fill
+          sizes="100vw"
+          priority
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-cacao via-cacao/60 to-cacao/10" aria-hidden />
         <div className="relative z-10 mx-auto max-w-[1600px] w-full px-6 sm:px-10 pb-16 sm:pb-24">
-          <p className="eyebrow text-background-cream/70">
+          <p className="eyebrow text-background-cream/80">
             Cosecha 2026 · Lote {String(featured.batchNumber).padStart(3, "0")}
           </p>
-          <h1 className="mt-4 text-[14vw] sm:text-[10vw] leading-[0.85] max-w-[14ch]">
+          <h1 className="mt-4 text-[14vw] sm:text-[10vw] leading-[0.85] max-w-[14ch] drop-shadow-2xl">
             Chocolate
             <br />
             de bosque.
           </h1>
-          <p className="mt-8 max-w-md text-base sm:text-lg leading-relaxed text-background-cream/80">
+          <p className="mt-8 max-w-md text-base sm:text-lg leading-relaxed text-background-cream/90">
             Cacao single-origin tostado en Bariloche. Frutos del bosque
             patagónico, dulce de leche de campo, especias de cordillera.
             Tabletas numeradas, batches de 80 a 300.
@@ -47,7 +54,7 @@ export default function Home() {
             </Link>
             <Link
               href="/origen"
-              className="inline-flex items-center gap-2 text-[0.78rem] uppercase kerning-expanded text-background-cream/80 hover:text-background-cream"
+              className="inline-flex items-center gap-2 text-[0.78rem] uppercase kerning-expanded text-background-cream/90 hover:text-background-cream"
             >
               Origen del cacao
             </Link>
@@ -55,7 +62,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Marquee categorías */}
       <section className="bg-background-warm border-y border-border py-6 overflow-hidden">
         <div className="mx-auto max-w-[1600px] px-6 sm:px-10 flex items-center gap-12 sm:gap-20 text-[0.78rem] uppercase kerning-expanded text-muted whitespace-nowrap overflow-x-auto">
           {categoryHighlights.map((c, i) => (
@@ -69,14 +75,13 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Producto destacado */}
       <section className="bg-background">
         <div className="mx-auto max-w-[1600px] px-6 sm:px-10 py-20 sm:py-32 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
           <div className="lg:col-span-7 order-2 lg:order-1">
-            <div
+            <ProductImage
+              product={featured}
               className="aspect-[4/5] w-full"
-              style={{ background: featured.heroGradient }}
-              aria-label={`Packshot ${featured.name}`}
+              sizes="(max-width: 1024px) 100vw, 60vw"
             />
           </div>
           <div className="lg:col-span-5 order-1 lg:order-2">
@@ -113,11 +118,18 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CTA mayorista */}
-      <section className="bg-cacao text-background-cream">
-        <div className="mx-auto max-w-[1600px] px-6 sm:px-10 py-20 sm:py-28 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+      <section className="relative bg-cacao text-background-cream overflow-hidden">
+        <Image
+          src="/hero/mayorista.jpg"
+          alt="Local cafetería interior madera"
+          fill
+          sizes="100vw"
+          className="object-cover opacity-40"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-cacao via-cacao/85 to-cacao/40" aria-hidden />
+        <div className="relative mx-auto max-w-[1600px] px-6 sm:px-10 py-20 sm:py-28 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
           <div className="lg:col-span-7">
-            <p className="eyebrow text-background-cream/60">B2B · Mayorista</p>
+            <p className="eyebrow text-background-cream/70">B2B · Mayorista</p>
             <h2 className="mt-4 text-5xl sm:text-6xl lg:text-7xl">
               Cafeterías,
               <br />
@@ -127,7 +139,7 @@ export default function Home() {
             </h2>
           </div>
           <div className="lg:col-span-5">
-            <p className="text-base sm:text-lg leading-relaxed text-background-cream/80">
+            <p className="text-base sm:text-lg leading-relaxed text-background-cream/90">
               Volumen mínimo 30 unidades, descuento 35%, etiquetado co-branded
               opcional, despacho semanal a CABA y lugares con frío. Atendemos
               consultas todos los días excepto domingos.

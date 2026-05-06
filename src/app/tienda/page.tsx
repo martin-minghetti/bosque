@@ -8,6 +8,7 @@ import {
   type Product,
 } from "@/data/products";
 import { formatArs } from "@/lib/format";
+import { ProductImage } from "@/components/ProductImage";
 
 export const metadata = {
   title: "Tienda · Bosque",
@@ -101,10 +102,10 @@ function ProductCard({ product }: { product: Product }) {
       href={`/tienda/${product.slug}`}
       className="group flex flex-col bg-background border border-border hover:border-foreground transition-colors"
     >
-      <div
+      <ProductImage
+        product={product}
         className="aspect-[4/5] w-full"
-        style={{ background: product.heroGradient }}
-        aria-hidden
+        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
       />
       <div className="p-6 flex flex-col gap-3 flex-1">
         <div className="flex items-start justify-between gap-4">

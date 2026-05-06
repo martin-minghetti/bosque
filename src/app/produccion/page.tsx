@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 
@@ -51,9 +52,18 @@ export default function ProduccionPage() {
   return (
     <>
       <SiteHeader />
-      <section className="bg-cacao text-background-cream">
-        <div className="mx-auto max-w-[1600px] px-6 sm:px-10 py-20 sm:py-32">
-          <p className="eyebrow text-background-cream/60">Producción</p>
+      <section className="relative bg-cacao text-background-cream overflow-hidden">
+        <Image
+          src="/hero/produccion.jpg"
+          alt="Tableta de chocolate troceada"
+          fill
+          sizes="100vw"
+          priority
+          className="object-cover opacity-50"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-cacao via-cacao/70 to-cacao/30" aria-hidden />
+        <div className="relative mx-auto max-w-[1600px] px-6 sm:px-10 py-20 sm:py-32">
+          <p className="eyebrow text-background-cream/70">Producción</p>
           <h1 className="mt-4 text-7xl sm:text-9xl leading-[0.85]">
             Cómo se
             <br />

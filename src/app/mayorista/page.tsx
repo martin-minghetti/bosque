@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 
@@ -7,8 +8,17 @@ export default function MayoristaPage() {
   return (
     <>
       <SiteHeader />
-      <section className="bg-background-warm">
-        <div className="mx-auto max-w-[1600px] px-6 sm:px-10 py-20 sm:py-32">
+      <section className="relative bg-background-warm overflow-hidden">
+        <Image
+          src="/hero/mayorista.jpg"
+          alt="Local cafetería interior"
+          fill
+          sizes="100vw"
+          priority
+          className="object-cover opacity-30"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-background-warm via-background-warm/85 to-background-warm/20" aria-hidden />
+        <div className="relative mx-auto max-w-[1600px] px-6 sm:px-10 py-20 sm:py-32">
           <p className="eyebrow">B2B · Mayorista</p>
           <h1 className="mt-4 text-7xl sm:text-9xl leading-[0.85]">
             Mayorista.

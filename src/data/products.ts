@@ -21,6 +21,7 @@ export type Product = {
   active: boolean;
   accentColor: "cacao" | "dulce-leche" | "frutos-rojos" | "menta-glacial";
   heroGradient: string;
+  imageUrl?: string;
   flavorNotes: string[];
   batchSize: number;
   batchNumber: number;
@@ -84,6 +85,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     slug: "dulce-de-leche-relleno",
+    imageUrl: "/products/dulce-de-leche-relleno.jpg",
     name: "Tableta rellena · Dulce de leche",
     shortName: "Dulce de leche",
     category: "tabletas",
@@ -110,6 +112,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     slug: "menta-glacial-70",
+    imageUrl: "/products/menta-glacial-70.jpg",
     name: "Menta glacial · 70%",
     shortName: "Menta glacial",
     category: "tabletas",
@@ -136,6 +139,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     slug: "calafate-avellana",
+    imageUrl: "/products/calafate-avellana.jpg",
     name: "Calafate y avellana · 65%",
     shortName: "Calafate · avellana",
     category: "tabletas",
@@ -162,6 +166,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     slug: "sauco-leche",
+    imageUrl: "/products/sauco-leche.jpg",
     name: "Sauco y leche · 38%",
     shortName: "Sauco · leche",
     category: "tabletas",
@@ -188,6 +193,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     slug: "bombones-autor-x9",
+    imageUrl: "/products/bombones-autor-x9.jpg",
     name: "Bombones de autor · Caja x9",
     shortName: "Bombones x9",
     category: "bombones",
@@ -214,6 +220,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     slug: "bombones-single-origin-x16",
+    imageUrl: "/products/bombones-single-origin-x16.jpg",
     name: "Bombones single-origin · Caja x16",
     shortName: "Bombones single-origin",
     category: "bombones",
@@ -240,6 +247,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     slug: "tablon-clasico-350g",
+    imageUrl: "/products/tablon-clasico-350g.jpg",
     name: "Tablón clásico · 350g",
     shortName: "Tablón clásico",
     category: "tablones",
@@ -318,6 +326,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     slug: "cacao-grano-250g",
+    imageUrl: "/products/cacao-grano-250g.jpg",
     name: "Cacao en grano tostado · 250g",
     shortName: "Cacao en grano",
     category: "granos",
